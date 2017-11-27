@@ -12,3 +12,28 @@ firewall_allow_icmp: true
 
 # Set to false to stop logging dropped / reject packets. (default is true)
 firewall_log_dropped_packets: true
+
+# List of allowed tcp ports. (default is to allow ssh to preserve ssh access)
+firewall_allowed_tcp_ports:
+  - "22"
+
+# List of allowed udp ports.
+firewall_allowed_udp_ports: []
+
+# List of forwarded tcp ports.
+firewall_forwarded_tcp_ports: []
+
+# List of forwarded udp ports.
+firewall_forwarded_udp_ports: []
+
+# Additional IPv4 nat firewall rules.
+firewall_ipv4_additional_nat_rules: []
+
+# Additionnal IPv6 nat firewall rules.
+firewall_ipv6_additional_nat_rules: []
+
+# Additional IPv4 firewall rules.
+firewall_ipv4_additional_rules: []
+
+# Additionnal IPv6 firewall rules.
+firewall_ipv6_additional_rules: []

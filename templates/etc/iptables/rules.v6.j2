@@ -8,6 +8,22 @@
 :POSTROUTING ACCEPT [0:0]
 COMMIT
 
+# CUSTOM RULES
+
+## Forwarded ports
+{% for forwarded_port in firewall_forwarded_tcp_ports %}
+-A PREROUTING -p tcp --dport {{ forwarded_port.src }} -j REDIRECT --to-port {{ forwarded_port.dest }}
+-A OUTPUT -p tcp -o lo --dport {{ forwarded_port.src }} -j REDIRECT --to-port {{ forwarded_port.dest }}
+{% endfor %}
+{% for forwarded_port in firewall_forwarded_udp_ports %}
+-A PREROUTING -p udp --dport {{ forwarded_port.src }} -j REDIRECT --to-port {{ forwarded_port.dest }}
+-A OUTPUT -p udp -o lo --dport {{ forwarded_port.src }} -j REDIRECT --to-port {{ forwarded_port.dest }}
+{% endfor %}
+
+{% for rule in firewall_ipv6_additional_nat_rules %}
+{{ rule }}
+{% endfor %}
+
 # FILTER
 *filter
 :INPUT ACCEPT [0:0]
@@ -17,11 +33,29 @@ COMMIT
 :LOG_DROP_OUT - [0:0]
 
 # BEGIN RULES
+## Accept traffic from loopback interface
 -A INPUT -i lo -m comment --comment "00000 INPUT ALL ACCEPT lo" -j ACCEPT
+## Accept related, established traffic
 -A INPUT -m comment --comment "00001 INPUT ALL RELATED,ESTABLISHED ACCEPT" -m state --state RELATED,ESTABLISHED -j ACCEPT
 {% if firewall_allow_icmp %}
+## Allow icmp requests
 -A INPUT -p icmp -m comment --comment "00002 INPUT ICMP ACCEPT" -j ACCEPT
 {% endif %}
+
+# CUSTOM RULES
+
+## Open ports from any
+{% for port in firewall_allowed_tcp_ports %}
+-A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
+{% endfor %}
+{% for port in firewall_allowed_udp_ports %}
+-A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
+{% endfor %}
+
+# Additional custom rules
+{% for rule in firewall_ipv6_additional_rules %}
+{{ rule }}
+{% endfor %}
 
 # END RULES
 {% if firewall_log_dropped_packets %}
