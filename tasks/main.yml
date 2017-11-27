@@ -10,6 +10,28 @@
 - include: install.yml
   tags: firewall_install
 
+# Rules - IPv4
+
+- name: Generate rules
+  template:
+    src: etc/iptables/rules.v4.j2
+    dest: /etc/iptables/rules.v4
+    owner: root
+    group: root
+    mode: 0400
+  tags: firewall_rules
+
+# Rules - IPv6
+
+- name: Generate rules
+  template:
+    src: etc/iptables/rules.v6.j2
+    dest: /etc/iptables/rules.v6
+    owner: root
+    group: root
+    mode: 0400
+  tags: firewall_rules
+
 # Logs
 
 - include: logs.yml

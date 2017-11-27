@@ -4,5 +4,11 @@
 ## Default variables for firewall role #
 ########################################
 
-# Set to true in order to disable others firewall.
+# Set to true in order to disable others firewall. (default is false)
 firewall_disable_others: false
+
+# Set to false to disallow icmp. (default is true)
+firewall_allow_icmp: true
+
+# Set to false to stop logging dropped / reject packets. (default is true)
+firewall_log_dropped_packets: true
