@@ -1,0 +1,10 @@
+---
+
+- name: Copy Rsyslog Configurations
+  copy:
+    src: config/rsyslog/
+    dest: /etc/rsyslog.d/
+    owner: root
+    group: root
+    mode: 0440
+  notify: Restart rsyslog

@@ -1,1 +1,16 @@
 ---
+
+# Disable other firewall
+
+- include: disable_others.yml
+  when: firewall_disable_others
+
+# Install
+
+- include: install.yml
+  tags: firewall_install
+
+# Logs
+
+- include: logs.yml
+  tags: firewall_logs
