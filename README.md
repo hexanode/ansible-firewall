@@ -68,8 +68,7 @@ firewall_ipv4_additional_rules: []
 firewall_ipv6_additional_rules: []
 
 # Enabled Role rules list
-enabled_role_rules_list:
-  - 'core_firewall_rules'
+enabled_role_rules_list: []
 ```
 
 ## Dependencies
@@ -79,7 +78,7 @@ none
 
 ## Rules Syntax
 
-Here is a recap of all possbile values.
+Here is a recap of all possible values.
 
 | Option    | Role                            | Default value | Possible values                     |
 |-----------|---------------------------------|:-------------:|-------------------------------------|
@@ -127,7 +126,7 @@ How to use the role in your ansible playbook.
     - { role: firewall, tags: [ 'firewall' ] }
 ```
 
-## Example of external role using firewall role
+## Example of external role using firewall role
 
 How to use the iptables rules creation with firewall role in a external role.
 
