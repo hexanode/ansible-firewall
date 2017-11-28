@@ -1,5 +1,7 @@
 ---
 
+# Rsyslog configuration
+
 - name: Copy Rsyslog Configurations
   copy:
     src: config/rsyslog/
@@ -8,3 +10,10 @@
     group: root
     mode: 0440
   notify: Restart rsyslog
+
+# Logrotate configuration
+
+- name: Copy logrotate configuration
+  copy:
+    src: config/logrotate/
+    dest: /etc/logrotate.d/
