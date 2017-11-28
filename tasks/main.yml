@@ -22,7 +22,7 @@
 
 # Rules - IPv4
 
-- name: Generate rules
+- name: Generate IPv4 Rules
   template:
     src: etc/iptables/rules.v4.j2
     dest: /etc/iptables/rules.v4
@@ -33,7 +33,7 @@
 
 # Rules - IPv6
 
-- name: Generate rules
+- name: Generate IPv6 Rules
   template:
     src: etc/iptables/rules.v6.j2
     dest: /etc/iptables/rules.v6
