@@ -14,7 +14,7 @@ Other:
 - The role require the superuser privileges. The task should be used with remote_user root or with a sudo/su grant
 
 
-## Role Variables
+## Role Variables
 
 Available variables with defaults values are defined in `defaults/main.yml`.
 
@@ -69,12 +69,12 @@ firewall_ipv6_additional_rules: []
 
 ```
 
-## Dependencies
+## Dependencies
 
 none
 
 
-## Example Playbook
+## Example Playbook
 
 How to use the role in your ansible playbook.
 
@@ -84,7 +84,7 @@ How to use the role in your ansible playbook.
         - { role: firewall, tags: [ 'firewall' ] }
 
 
-## ToDo
+## ToDo
 
 - Add tests
 - Add CI Integration
@@ -95,6 +95,6 @@ How to use the role in your ansible playbook.
 GPLv3
 
 
-## Author Information
+## Author Information
 
 This role is maintained by maximiliend. Issues and Merge Request are welcome.
