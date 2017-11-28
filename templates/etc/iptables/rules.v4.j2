@@ -48,6 +48,22 @@ COMMIT
 
 ## ROLES RULES
 
+{% for role_rules in enabled_role_rules_list %}
+    {%- if hostvars[inventory_hostname][role_rules] is defined %}
+        ### {{ role_rules | replace('_firewall_rules','') | upper }}
+        {%- if hostvars[inventory_hostname][role_rules]['allowed_tcp_ports'] is defined -%}
+            {% for allowed_tcp_port in hostvars[inventory_hostname][role_rules]['allowed_tcp_ports'] %}
+                -A INPUT -p tcp -m tcp --dport {{ allowed_tcp_port }} -j ACCEPT
+            {% endfor %}
+        {% endif %}
+        {%- if hostvars[inventory_hostname][role_rules]['allowed_udp_ports'] is defined -%}
+            {% for allowed_udp_port in hostvars[inventory_hostname][role_rules]['allowed_udp_ports'] %}
+                -A INPUT -p udp -m udp --dport {{ allowed_udp_port }} -j ACCEPT
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
 ## CUSTOM RULES
 
 ### Open ports from any
