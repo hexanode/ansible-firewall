@@ -67,6 +67,9 @@ firewall_ipv4_additional_rules: []
 # Additionnal IPv6 firewall rules.
 firewall_ipv6_additional_rules: []
 
+# Enabled Role rules list
+enabled_role_rules_list:
+  - 'core_firewall_rules'
 ```
 
 ## Dependencies
