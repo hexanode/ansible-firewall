@@ -7,14 +7,23 @@
 # Set to true in order to disable others firewall. (default is false)
 firewall_disable_others: false
 
-# Set to false to disallow icmp. (default is true)
+# Set false to disallow icmp. (default is true)
 firewall_allow_icmp: true
 
-# Set to false to stop logging dropped / reject packets. (default is true)
+# Set false to stop logging dropped / reject packets. (default is true)
 firewall_log_dropped_packets: true
 
-# Set to false to reject instead of dropping packets. (default is true)
+# Set false to reject instead of dropping packets. (default is true)
 firewall_drop_instead_of_reject: true
+
+# Set true to configure default INPUT policy to ACCEPT. (default is false)
+firewall_input_policy_accept: false
+
+# Set true to configure default FORWARD policy to ACCEPT. (default is false)
+firewall_forward_policy_accept: false
+
+# Set false to configure default OUTPUT policy to REJECT/DROP. (default is true)
+firewall_output_policy_accept: true
 
 # List of allowed tcp ports. (default is to allow ssh to preserve ssh access)
 firewall_allowed_tcp_ports:

@@ -26,9 +26,9 @@ COMMIT
 
 # FILTER
 *filter
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
+:INPUT {{ 'ACCEPT' if firewall_input_policy_accept else 'DROP' }} [0:0]
+:FORWARD {{ 'ACCEPT' if firewall_forward_policy_accept else 'DROP' }} [0:0]
+:OUTPUT {{ 'ACCEPT' if firewall_output_policy_accept else 'DROP' }} [0:0]
 :LOG_CHAIN - [0:0]
 :LOG_CHAIN_OUT - [0:0]
 
