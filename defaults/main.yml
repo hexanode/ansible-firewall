@@ -13,6 +13,9 @@ firewall_allow_icmp: true
 # Set to false to stop logging dropped / reject packets. (default is true)
 firewall_log_dropped_packets: true
 
+# Set to false to reject instead of dropping packets. (default is true)
+firewall_drop_instead_of_reject: true
+
 # List of allowed tcp ports. (default is to allow ssh to preserve ssh access)
 firewall_allowed_tcp_ports:
   - "22"
