@@ -1,1 +1,48 @@
 ---
+
+# Copyright (c) 2017 Kabolt
+# GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+# OS support verification
+
+- name: Check OS support
+  fail:
+    msg: "Unsupported OS for docker role. Currently supported : Debian 8 & Debian 9"
+  when: ansible_os_family != "Debian" and ( ansible_distribution_major_version == "9" or ansible_distribution_major_version == "8" )
+
+# Disable other firewall
+
+- include: disable_others.yml
+  when: firewall_disable_others
+
+# Install
+
+- include: install.yml
+  tags: firewall_install
+
+# Rules - IPv4
+
+- name: Generate IPv4 Rules
+  template:
+    src: etc/iptables/rules.v4.j2
+    dest: /etc/iptables/rules.v4
+    owner: root
+    group: root
+    mode: 0400
+  tags: firewall_rules
+
+# Rules - IPv6
+
+- name: Generate IPv6 Rules
+  template:
+    src: etc/iptables/rules.v6.j2
+    dest: /etc/iptables/rules.v6
+    owner: root
+    group: root
+    mode: 0400
+  tags: firewall_rules
+
+# Logs
+
+- include: logs.yml
+  tags: firewall_logs
