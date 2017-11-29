@@ -42,18 +42,12 @@ firewall_forward_policy_accept: false
 # Set false to configure default OUTPUT policy to REJECT/DROP. (default is true)
 firewall_output_policy_accept: true
 
-# List of allowed tcp ports. (default is to allow ssh to preserve ssh access)
-firewall_allowed_tcp_ports:
-  - "22"
+# List of enabled rules. (default is to allow ssh to preserve ssh access)
+firewall_filter_rules:
+  - { dest_port: '22' }
 
-# List of allowed udp ports.
-firewall_allowed_udp_ports: []
-
-# List of forwarded tcp ports.
-firewall_forwarded_tcp_ports: []
-
-# List of forwarded udp ports.
-firewall_forwarded_udp_ports: []
+# List of forwarded rules.
+firewall_forwarded_rules: []
 
 # Additional IPv4 nat firewall rules.
 firewall_ipv4_additional_nat_rules: []
@@ -78,7 +72,9 @@ none
 
 ## Rules Syntax
 
-Here is a recap of all possible values.
+### Filter Rules & Roles Rules syntax
+
+Here is a recap of all possible values for firewall_filter_rules & for role rules.
 
 | Option    | Role                            | Default value | Possible values                     |
 |-----------|---------------------------------|:-------------:|-------------------------------------|
@@ -113,6 +109,42 @@ IPv6 :
 -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
 -A INPUT -p udp -m udp --destination 2001:4860:4860::8888 --dport 53 -j ACCEPT
+```
+
+### Forwarded Rules syntax
+
+Possible values for firewall_forwarded_rules.
+
+| Option    | Role                            | Default value | Possible values                     |
+|-----------|---------------------------------|:-------------:|-------------------------------------|
+| ip        | IP Version                      |       4       | 4, 6                                |
+| proto     | Transport Protocol              |      tcp      | tcp, udp                            |
+| src_port  | Specific source port            | no (Required) | any port number                     |
+| dest_port | Specific destination port       | no (Required) | any port number                     |
+
+The syntax is a bit flexible, per example you can use the following syntax.
+
+```
+[
+    { src_port: '80', dest_port: '8080' },
+    { proto: 'udp', src_port: '53', dest_port: '5353' }
+]
+```
+
+This will be respectively translated to :
+
+```
+IPv4 :
+-A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+-A OUTPUT -p tcp -o lo --dport 80 -j REDIRECT --to-port 8080
+-A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 5353
+-A OUTPUT -p udp -o lo --dport 53 -j REDIRECT --to-port 5353
+
+IPv6 :
+-A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+-A OUTPUT -p tcp -o lo --dport 80 -j REDIRECT --to-port 8080
+-A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 5353
+-A OUTPUT -p udp -o lo --dport 53 -j REDIRECT --to-port 5353
 ```
 
 ## Example Playbook
