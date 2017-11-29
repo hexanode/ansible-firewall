@@ -60,6 +60,7 @@ COMMIT
                 {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination {{ rule.dest_ip }} {%- endif %}
                 {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
                 {%- if rule.policy is not defined %} -j ACCEPT {% else %} -j {{ rule.policy }} {%- endif %}
+                {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
 
             {% endif %}
         {% endfor %}
@@ -81,6 +82,7 @@ COMMIT
             {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination {{ rule.dest_ip }} {%- endif %}
             {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
             {%- if rule.policy is not defined %} -j ACCEPT {% else %} -j {{ rule.policy }} {%- endif %}
+            {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
 
         {% endif %}
     {% endfor %}

@@ -85,12 +85,13 @@ Here is a recap of all possible values for firewall_filter_rules & for role rule
 | dest_ip   | Specific destination IP Address |      any      | any IPv4 or IPv6 (must set ip to 6) |
 | dest_port | Specific destination port       |      any      | any port number                     |
 | policy    | Policy to apply                 |     ACCEPT    | ACCEPT, DENY, DROP                  |
+| comment   | Comment                         |               | String                              |
 
 The syntax is a bit flexible, per example you can use the following syntax.
 
 ```
 [
-    { proto: 'tcp', src_ip: 'any', src_port: 'any', dest_ip: 'any', dest_port: '80', policy: 'ACCEPT' },
+    { proto: 'tcp', src_ip: 'any', src_port: 'any', dest_ip: 'any', dest_port: '80', policy: 'ACCEPT', comment: 'Accept HTTP' },
     { proto: 'udp', src_ip: '23.66.165.166', dest_ip: '104.16.77.187', dest_port: '1194' },
     { ip: '6', proto: 'udp', dest_ip: '2001:4860:4860::8888', dest_port: '53' }
     { dest_port: '443' },
