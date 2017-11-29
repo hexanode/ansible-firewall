@@ -1,6 +1,6 @@
 galaxy_info:
   author: "Maximilien Douchet"
-  description: "Ansible role that deploy firewall rules on Debian Jessie & Stretch"
+  description: "Ansible role that deploy iptables firewall rules on Debian Jessie & Stretch"
   company: "Kabolt"
   license: "license GPLv3"
   min_ansible_version: 2.0
@@ -13,5 +13,6 @@ galaxy_info:
   galaxy_tags:
     - debian
     - firewall
+    - iptables
 
 dependencies: []
