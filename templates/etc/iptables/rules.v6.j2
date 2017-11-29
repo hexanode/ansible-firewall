@@ -11,13 +11,9 @@
 ## CUSTOM RULES
 
 ### Forwarded ports
-{% for forwarded_port in firewall_forwarded_tcp_ports %}
--A PREROUTING -p tcp --dport {{ forwarded_port.src }} -j REDIRECT --to-port {{ forwarded_port.dest }}
--A OUTPUT -p tcp -o lo --dport {{ forwarded_port.src }} -j REDIRECT --to-port {{ forwarded_port.dest }}
-{% endfor -%}
-{% for forwarded_port in firewall_forwarded_udp_ports %}
--A PREROUTING -p udp --dport {{ forwarded_port.src }} -j REDIRECT --to-port {{ forwarded_port.dest }}
--A OUTPUT -p udp -o lo --dport {{ forwarded_port.src }} -j REDIRECT --to-port {{ forwarded_port.dest }}
+{% for rule in firewall_forwarded_rules %}
+-A PREROUTING {%- if rule.proto is not defined %} -p tcp {%- else %} -p {{ rule.proto }} {%- endif %} --dport {{ rule.src_port }} -j REDIRECT --to-port {{ rule.dest_port }}
+-A OUTPUT {%- if rule.proto is not defined %} -p tcp {%- else %} -p {{ rule.proto }} {%- endif %} -o lo --dport {{ rule.src_port }} -j REDIRECT --to-port {{ rule.dest_port }}
 {% endfor %}
 
 ### Additional custom rules
@@ -72,13 +68,23 @@ COMMIT
 
 ## CUSTOM RULES
 
-### Open ports from any
-{% for port in firewall_allowed_tcp_ports -%}
-    -A INPUT -p tcp -m tcp --dport {{ port }} -j ACCEPT
-{% endfor %}
-{% for port in firewall_allowed_udp_ports -%}
-    -A INPUT -p udp -m udp --dport {{ port }} -j ACCEPT
-{% endfor %}
+### Custom rules from variables
+{% if firewall_filter_rules is defined -%}
+    {% for rule in firewall_filter_rules -%}
+        {% if ( ( rule.dest_ip is not defined or rule.dest_ip == 'any' ) and
+              ( rule.src_ip is not defined or rule.src_ip == 'any' ) ) or
+              ( rule.ip is defined and rule.ip == '6' ) -%}
+                -A INPUT
+            {%- if rule.proto is not defined %} -p tcp -m tcp {%- else %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
+            {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source {{ rule.src_ip }} {%- endif %}
+            {%- if rule.src_port is defined and rule.src_port != 'any' %} --sport {{ rule.src_port }} {%- endif %}
+            {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination {{ rule.dest_ip }} {%- endif %}
+            {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
+            {%- if rule.policy is not defined %} -j ACCEPT {% else %} -j {{ rule.policy }} {%- endif %}
+
+        {% endif %}
+    {% endfor %}
+{% endif %}
 
 ### Additional custom rules
 {% for rule in firewall_ipv6_additional_rules -%}
