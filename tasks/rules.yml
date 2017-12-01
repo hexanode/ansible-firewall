@@ -1,0 +1,19 @@
+---
+
+# Generate IPv4 Rules
+- name: Generate IPv4 Rules
+  template:
+    src: etc/iptables/rules.v4.j2
+    dest: /etc/iptables/rules.v4
+    owner: root
+    group: root
+    mode: 0400
+
+# Generate IPv6 Rules
+- name: Generate IPv6 Rules
+  template:
+    src: etc/iptables/rules.v6.j2
+    dest: /etc/iptables/rules.v6
+    owner: root
+    group: root
+    mode: 0400
