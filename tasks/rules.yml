@@ -8,6 +8,7 @@
     owner: root
     group: root
     mode: 0400
+  notify: Test and Restore IPv4 ruleset
 
 # Generate IPv6 Rules
 - name: Generate IPv6 Rules
@@ -17,3 +18,4 @@
     owner: root
     group: root
     mode: 0400
+  notify: Test and Restore IPv6 ruleset
