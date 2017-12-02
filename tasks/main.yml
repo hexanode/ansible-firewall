@@ -21,6 +21,7 @@
 # Logs
 - include: logs.yml
   tags: firewall_logs
+  when: firewall_log_dropped_packets
 
 # Rules
 - include: rules.yml
