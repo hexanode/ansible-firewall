@@ -13,6 +13,9 @@ firewall_allow_icmp: true
 # Set false to stop logging dropped / reject packets. (default is true)
 firewall_log_dropped_packets: true
 
+# Log at most X packets per minute. (Default is 10)
+firewall_limit_log: 10
+
 # Set false to reject instead of dropping packets. (default is true)
 firewall_drop_instead_of_reject: true
 

@@ -18,3 +18,4 @@
 - __Added__ : `Logs` - Add logging and rsyslog configuration
 - __Added__ : `Logs` - Option to enable/disable logging for dropped/rejected packets
 - __Added__ : `Logs` - Add logrotate default configuration for logs files
+- __Added__ : `Logs` - Add alterable threshold of packets logged per minute
