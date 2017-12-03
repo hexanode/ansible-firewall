@@ -55,9 +55,13 @@ COMMIT
                   ( rule.ip is defined and rule.ip == '6' ) -%}
                     -A INPUT
                 {%- if rule.proto is not defined %} -p tcp -m tcp {%- else %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
-                {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source {{ rule.src_ip }} {%- endif %}
+                {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
+                    {%- if rule.src_ip | search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/128 {%- endif %}
+                {%- endif %}
                 {%- if rule.src_port is defined and rule.src_port != 'any' %} --sport {{ rule.src_port }} {%- endif %}
-                {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination {{ rule.dest_ip }} {%- endif %}
+                {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination
+                    {%- if rule.dest_ip | search('/') %} {{ rule.dest_ip }} {%- else %} {{ rule.dest_ip }}/128 {%- endif %}
+                {%- endif %}
                 {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
                 {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
                 {%- if rule.policy is not defined %} -j ACCEPT {%- else %} -j {{ rule.policy }} {%- endif %}
@@ -77,9 +81,13 @@ COMMIT
               ( rule.ip is defined and rule.ip == '6' ) -%}
                 -A INPUT
             {%- if rule.proto is not defined %} -p tcp -m tcp {%- else %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
-            {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source {{ rule.src_ip }} {%- endif %}
+            {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
+                {%- if rule.src_ip | search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/128 {%- endif %}
+            {%- endif %}
             {%- if rule.src_port is defined and rule.src_port != 'any' %} --sport {{ rule.src_port }} {%- endif %}
-            {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination {{ rule.dest_ip }} {%- endif %}
+            {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination
+                {%- if rule.dest_ip | search('/') %} {{ rule.dest_ip }} {%- else %} {{ rule.dest_ip }}/128 {%- endif %}
+            {%- endif %}
             {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
             {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
             {%- if rule.policy is not defined %} -j ACCEPT {%- else %} -j {{ rule.policy }} {%- endif %}

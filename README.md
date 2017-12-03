@@ -90,12 +90,16 @@ Here is a recap of all possible values for firewall_filter_rules & for role rule
 | policy    | Policy to apply                 |     ACCEPT    | ACCEPT, DENY, DROP                  |
 | comment   | Comment                         |               | String                              |
 
+**Note :**
+- If you omit an option the default will be used.
+- For src_ip & dest_ip, you can use the CIDR notation X.X.X.X/YY or a single IP X.X.X.X.
+
 The syntax is a bit flexible, per example you can use the following syntax.
 
 ```
 [
     { proto: 'tcp', src_ip: 'any', src_port: 'any', dest_ip: 'any', dest_port: '80', policy: 'ACCEPT', comment: 'Accept HTTP' },
-    { proto: 'udp', src_ip: '23.66.165.166', dest_ip: '104.16.77.187', dest_port: '1194' },
+    { proto: 'udp', src_ip: '23.66.165.166/32', dest_ip: '104.16.77.187', dest_port: '1194' },
     { ip: '6', proto: 'udp', dest_ip: '2001:4860:4860::8888', dest_port: '53' }
     { dest_port: '443' },
 ]
@@ -105,14 +109,14 @@ This will be respectively translated to :
 
 ```
 IPv4 :
--A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
+-A INPUT -p tcp -m tcp --dport 80 -m comment --comment "Accept HTTP" -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
--A INPUT -p udp -m udp --source 23.66.165.166 --destination 104.16.77.187 --dport 1194 -j ACCEPT
+-A INPUT -p udp -m udp --source 23.66.165.166/32 --destination 104.16.77.187/32 --dport 1194 -j ACCEPT
 
 IPv6 :
 -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
--A INPUT -p udp -m udp --destination 2001:4860:4860::8888 --dport 53 -j ACCEPT
+-A INPUT -p udp -m udp --destination 2001:4860:4860::8888/128 --dport 53 -j ACCEPT
 ```
 
 ### Forwarded Rules syntax
