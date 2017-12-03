@@ -60,7 +60,7 @@ COMMIT
                 {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination {{ rule.dest_ip }} {%- endif %}
                 {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
                 {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
-                {%- if rule.policy is not defined %} -j ACCEPT {% else %} -j {{ rule.policy }} {%- endif %}
+                {%- if rule.policy is not defined %} -j ACCEPT {%- else %} -j {{ rule.policy }} {%- endif %}
 
             {% endif %}
         {% endfor %}
@@ -82,7 +82,7 @@ COMMIT
             {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination {{ rule.dest_ip }} {%- endif %}
             {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
             {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
-            {%- if rule.policy is not defined %} -j ACCEPT {% else %} -j {{ rule.policy }} {%- endif %}
+            {%- if rule.policy is not defined %} -j ACCEPT {%- else %} -j {{ rule.policy }} {%- endif %}
 
         {% endif %}
     {% endfor %}
@@ -104,12 +104,12 @@ COMMIT
 
 {% if firewall_log_dropped_packets %}
 ### LOG DROP INPUT
--A LOG_CHAIN -m limit --limit {{ firewall_limit_log }}/minute -m comment --comment "00000 LOG_CHAIN ALL LOG" -j LOG --log-prefix "[IPT LOG]: "
--A LOG_CHAIN -m limit --limit {{ firewall_limit_log }}/minute -m comment --comment "00001 LOG_CHAIN ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
+-A LOG_CHAIN -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00000 LOG_CHAIN ALL LOG" -j LOG --log-prefix "[IPT LOG]: "
+-A LOG_CHAIN -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00001 LOG_CHAIN ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
 
 ### LOG DROP OUTPUT
--A LOG_CHAIN_OUT -m limit --limit {{ firewall_limit_log }}/minute -m comment --comment "00000 LOG_CHAIN_OUT ALL LOG" -j LOG --log-prefix "[IPT LOG OUT]: "
--A LOG_CHAIN_OUT -m limit --limit {{ firewall_limit_log }}/minute -m comment --comment "00001 LOG_CHAIN_OUT ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
+-A LOG_CHAIN_OUT -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00000 LOG_CHAIN_OUT ALL LOG" -j LOG --log-prefix "[IPT LOG OUT]: "
+-A LOG_CHAIN_OUT -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00001 LOG_CHAIN_OUT ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
 {% endif %}
 
 COMMIT
