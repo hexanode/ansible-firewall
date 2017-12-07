@@ -201,6 +201,8 @@ Then, in your "nginx" role, define a new fact.
     ]
 ```
 
+**Note :** If you want to use tags to run only the firewall role, please use the `tags: always` for the set_fact in other roles. This ensures that even if there is only the firewall role that is executed you will not forget rules of other roles.
+
 ## ToDo
 
 - Add tests

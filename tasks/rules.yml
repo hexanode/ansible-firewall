@@ -35,7 +35,9 @@
 - name: Notify user that rules differ for IPv4
   debug:
     msg: "IPv4 current and generated rules differ"
-  when: firewall_ipv4_current_generated_differ.rc != 0
+  when:
+    - not ansible_check_mode
+    - firewall_ipv4_current_generated_differ.rc != 0
   changed_when: true
   notify: Test and Restore IPv4 ruleset
 
@@ -52,6 +54,8 @@
 - name: Notify user that rules differ for IPv6
   debug:
     msg: "IPv6 current and generated rules differ"
-  when: firewall_ipv6_current_generated_differ.rc != 0
+  when:
+    - not ansible_check_mode
+    - firewall_ipv6_current_generated_differ.rc != 0
   changed_when: true
   notify: Test and Restore IPv6 ruleset
