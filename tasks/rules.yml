@@ -28,10 +28,30 @@
   ignore_errors: true
   notify: Test and Restore IPv4 ruleset
 
+# Notify user that rules differ for IPv4
+# This also bypass a bad behavior with shell task who does not trigger the handler
+# (TODO) We should investigate this for IPv4 & IPv6
+
+- name: Notify user that rules differ for IPv4
+  debug:
+    msg: "IPv4 current and generated rules differ"
+  when: firewall_ipv4_current_generated_differ.rc != 0
+  changed_when: true
+  notify: Test and Restore IPv4 ruleset
+
 # Compare IPv6 current and generated rules number
 - name: Compare IPv6 current and generated rules number
   shell: test "$(ip6tables-save|grep '^\-'|wc -l)" = "$(grep '^\-' /etc/iptables/rules.v6|wc -l)"
   register: firewall_ipv6_current_generated_differ
   changed_when: "firewall_ipv6_current_generated_differ.rc != 0"
   ignore_errors: true
+  notify: Test and Restore IPv6 ruleset
+
+# Notify user that rules differ for IPv6
+
+- name: Notify user that rules differ for IPv6
+  debug:
+    msg: "IPv6 current and generated rules differ"
+  when: firewall_ipv6_current_generated_differ.rc != 0
+  changed_when: true
   notify: Test and Restore IPv6 ruleset
