@@ -1,27 +1,29 @@
 ---
 
-# Restart Rsyslog handler
+# Restart Rsyslog handler
 - name: Restart rsyslog
   service: name=rsyslog state=restarted
 
-# Test IPv4 ruleset
+# Test IPv4 ruleset
 - name: Test IPv4 iptables ruleset
   shell: 'iptables-restore -t /etc/iptables/rules.v4'
   listen: Test and Restore IPv4 ruleset
   changed_when: False
 
-# Restore IPv4 Ruleset
+# Restore IPv4 Ruleset
 - name: Restore IPv4 iptables ruleset
   shell: 'iptables-restore < /etc/iptables/rules.v4'
   listen: Test and Restore IPv4 ruleset
+  when: firewall_restore_rules
 
-# Test IPv6 ruleset
+# Test IPv6 ruleset
 - name: Test IPv6 iptables ruleset
   shell: 'ip6tables-restore -t /etc/iptables/rules.v6'
   listen: Test and Restore IPv6 ruleset
   changed_when: False
 
-# Restore IPv6 Ruleset
+# Restore IPv6 Ruleset
 - name: Restore IPv6 iptables ruleset
   shell: 'ip6tables-restore < /etc/iptables/rules.v6'
   listen: Test and Restore IPv6 ruleset
+  when: firewall_restore_rules

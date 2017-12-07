@@ -7,6 +7,9 @@
 # Set to true in order to disable others firewall. (default is false)
 firewall_disable_others: false
 
+# Set to false to disable automatic rules restoration, the role will only generate rules.v[4|6] files. (default is true)
+firewall_restore_rules: true
+
 # Set false to disallow icmp. (default is true)
 firewall_allow_icmp: true
 
