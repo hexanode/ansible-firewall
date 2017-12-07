@@ -2,6 +2,7 @@
 
 An Ansible Role that installs iptables and configure IPv4 & IPv6 Rules.
 
+We want this role as simple, configurable and interoperable as possible.
 
 ## Requirements
 
@@ -13,6 +14,14 @@ Other:
 - Fact gathering should be allowed in ansible-playbook (By default)
 - The role require the superuser privileges. The task should be used with remote_user root or with a sudo/su grant
 
+## Role behavior
+
+- Disable other firewalls (Optionnal)
+- Install required packages
+- Deploy configuration for packets logging (Optionnal)
+- Generate iptables rules for IPv4 & IPv6
+- Test and restore respectively IPv4 & IPv6 rules only if :
+        ( Rules have been updated ) or ( Current and generated rules differ )
 
 ## Role Variables
 
@@ -196,6 +205,7 @@ Then, in your "nginx" role, define a new fact.
 
 - Add tests
 - Add CI Integration
+- Improve current and generated rules comparison
 
 
 ## License
