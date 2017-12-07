@@ -11,18 +11,22 @@
   tags: always
 
 # Disable other firewall
-- include: disable_others.yml
+- name: Dynamic include of disable_others
+  include_tasks: disable_others.yml
   when: firewall_disable_others
 
 # Install
-- include: install.yml
+- name: Static import of install
+  import_tasks: install.yml
   tags: firewall_install
 
 # Logs
-- include: logs.yml
+- name: Dynamic include of logs
+  include_tasks: logs.yml
   tags: firewall_logs
   when: firewall_log_dropped_packets
 
 # Rules
-- include: rules.yml
+- name: Static import of rules
+  import_tasks: rules.yml
   tags: firewall_rules
