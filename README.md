@@ -61,14 +61,11 @@ firewall_output_policy_accept: true
 firewall_filter_rules:
   - { dest_port: '22' }
 
-# List of forwarded rules.
+# List of forwarded rules (For IPv4).
 firewall_forwarded_rules: []
 
 # Additional IPv4 nat firewall rules.
 firewall_ipv4_additional_nat_rules: []
-
-# Additionnal IPv6 nat firewall rules.
-firewall_ipv6_additional_nat_rules: []
 
 # Additional IPv4 firewall rules.
 firewall_ipv4_additional_rules: []
