@@ -2,7 +2,9 @@
 
 # Restart Rsyslog handler
 - name: Restart rsyslog
-  service: name=rsyslog state=restarted
+  service:
+    name: rsyslog
+    state: restarted
 
 # Test IPv4 ruleset
 - name: Test IPv4 iptables ruleset
@@ -27,3 +29,9 @@
   shell: 'ip6tables-restore < /etc/iptables/rules.v6'
   listen: Test and Restore IPv6 ruleset
   when: firewall_restore_rules
+
+# Apply IP Forward Policy on the fly
+- name: Apply IP Forward Policy
+  shell: |
+    sysctl -w net.ipv4.ip_forward={{ firewall_allow_ip_forward }}
+    sysctl -w net.ipv6.conf.all.forwarding={{ firewall_allow_ip_forward }}
