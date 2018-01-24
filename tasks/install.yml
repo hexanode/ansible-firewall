@@ -1,6 +1,6 @@
 ---
 
-- name: Install required core packages
+- name: Install required firewall packages
   apt:
     name: "{{ item }}"
     state: present
