@@ -20,6 +20,11 @@
   import_tasks: install.yml
   tags: firewall_install
 
+# System
+- name: Static import of system configuration
+  import_tasks: system.yml
+  tags: firewall_system
+
 # Logs
 - name: Dynamic include of logs
   include_tasks: logs.yml
