@@ -2,7 +2,7 @@
 {
     rotate 7
     daily
-    size 2M
+    maxsize 4M
     missingok
     notifempty
     delaycompress
