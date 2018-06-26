@@ -93,7 +93,7 @@ Here is a recap of all possible values for firewall_filter_rules & for role rule
 
 | Option    | Role                            | Default value | Possible values                     |
 |-----------|---------------------------------|:-------------:|-------------------------------------|
-| ip        | IP Version                      |       4       | 4, 6                                |
+| ip        | IP Version                      |      both     | 4, 6                                |
 | proto     | Transport Protocol              |      tcp      | tcp, udp                            |
 | src_ip    | Specific source IP Address      |      any      | any IPv4 or IPv6 (must set ip to 6) |
 | src_port  | Specific source port            |      any      | any port number                     |
