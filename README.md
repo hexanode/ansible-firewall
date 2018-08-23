@@ -93,6 +93,7 @@ Here is a recap of all possible values for firewall_filter_rules & for role rule
 
 | Option    | Role                            | Default value | Possible values                     |
 |-----------|---------------------------------|:-------------:|-------------------------------------|
+| interface | Interface                       |      any      | Any interface name available        |
 | ip        | IP Version                      |      both     | 4, 6                                |
 | proto     | Transport Protocol              |      tcp      | tcp, udp                            |
 | src_ip    | Specific source IP Address      |      any      | any IPv4 or IPv6 (must set ip to 6) |
@@ -111,7 +112,7 @@ The syntax is a bit flexible, per example you can use the following syntax.
 ```
 [
     { proto: 'tcp', src_ip: 'any', src_port: 'any', dest_ip: 'any', dest_port: '80', policy: 'ACCEPT', comment: 'Accept HTTP' },
-    { proto: 'udp', src_ip: '23.66.165.166/32', dest_ip: '104.16.77.187', dest_port: '1194' },
+    { interface: 'eth1', proto: 'udp', src_ip: '23.66.165.166/32', dest_ip: '104.16.77.187', dest_port: '1194' },
     { ip: '6', proto: 'udp', dest_ip: '2001:4860:4860::8888', dest_port: '53' }
     { dest_port: '443' },
 ]
@@ -123,7 +124,7 @@ This will be respectively translated to :
 IPv4 :
 -A INPUT -p tcp -m tcp --dport 80 -m comment --comment "Accept HTTP" -j ACCEPT
 -A INPUT -p tcp -m tcp --dport 443 -j ACCEPT
--A INPUT -p udp -m udp --source 23.66.165.166/32 --destination 104.16.77.187/32 --dport 1194 -j ACCEPT
+-A INPUT -i eth1 -p udp -m udp --source 23.66.165.166/32 --destination 104.16.77.187/32 --dport 1194 -j ACCEPT
 
 IPv6 :
 -A INPUT -p tcp -m tcp --dport 80 -j ACCEPT

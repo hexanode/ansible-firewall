@@ -32,6 +32,7 @@
                   ( rule.src_ip is not defined or rule.src_ip == 'any' ) ) or
                   ( rule.ip is defined and rule.ip == '6' ) -%}
                     -A INPUT
+                {%- if rule.interface is defined %} -i {{ rule.interface }} {%- endif %}
                 {%- if rule.proto is not defined %} -p tcp -m tcp {%- else %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
                 {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
                     {%- if rule.src_ip | search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/128 {%- endif %}
@@ -58,6 +59,7 @@
               ( rule.src_ip is not defined or rule.src_ip == 'any' ) ) or
               ( rule.ip is defined and rule.ip == '6' ) -%}
                 -A INPUT
+            {%- if rule.interface is defined %} -i {{ rule.interface }} {%- endif %}
             {%- if rule.proto is not defined %} -p tcp -m tcp {%- else %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
             {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
                 {%- if rule.src_ip | search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/128 {%- endif %}
