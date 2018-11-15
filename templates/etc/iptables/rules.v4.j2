@@ -51,7 +51,7 @@ COMMIT
         ### {{ role_rules | replace('_firewall_rules','') | upper }}
         {% for rule in hostvars[inventory_hostname][role_rules] -%}
             {% if rule.ip is not defined or rule.ip == '4' -%}
-                    -A INPUT
+                    -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
                 {%- if rule.interface is defined %} -i {{ rule.interface }} {%- endif %}
                 {%- if rule.proto is not defined %} -p tcp -m tcp {%- else %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
                 {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
@@ -68,15 +68,15 @@ COMMIT
             {% endif %}
         {% endfor %}
     {% endif %}
-{% endfor %}
 
+{% endfor %}
 ## CUSTOM RULES
 
 ### Custom rules from variables
 {% if firewall_filter_rules is defined -%}
     {% for rule in firewall_filter_rules -%}
         {% if rule.ip is not defined or rule.ip == '4' -%}
-                -A INPUT
+                -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
             {%- if rule.interface is defined %} -i {{ rule.interface }} {%- endif %}
             {%- if rule.proto is not defined %} -p tcp -m tcp {%- else %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
             {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
@@ -117,6 +117,8 @@ COMMIT
 -A LOG_CHAIN_OUT -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00000 LOG_CHAIN_OUT ALL LOG" -j LOG --log-prefix "[IPT LOG OUT]: "
 -A LOG_CHAIN_OUT -m comment --comment "00001 LOG_CHAIN_OUT ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
 {% endif %}
+
+## FORWARD RULES
 
 COMMIT
 

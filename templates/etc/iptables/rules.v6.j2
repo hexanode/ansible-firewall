@@ -31,7 +31,7 @@
             {% if ( ( rule.dest_ip is not defined or rule.dest_ip == 'any' ) and
                   ( rule.src_ip is not defined or rule.src_ip == 'any' ) ) or
                   ( rule.ip is defined and rule.ip == '6' ) -%}
-                    -A INPUT
+                    -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
                 {%- if rule.interface is defined %} -i {{ rule.interface }} {%- endif %}
                 {%- if rule.proto is not defined %} -p tcp -m tcp {%- else %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
                 {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
@@ -48,8 +48,8 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-{% endfor %}
 
+{% endfor %}
 ## CUSTOM RULES
 
 ### Custom rules from variables
@@ -58,7 +58,7 @@
         {% if ( ( rule.dest_ip is not defined or rule.dest_ip == 'any' ) and
               ( rule.src_ip is not defined or rule.src_ip == 'any' ) ) or
               ( rule.ip is defined and rule.ip == '6' ) -%}
-                -A INPUT
+                -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
             {%- if rule.interface is defined %} -i {{ rule.interface }} {%- endif %}
             {%- if rule.proto is not defined %} -p tcp -m tcp {%- else %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
             {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
