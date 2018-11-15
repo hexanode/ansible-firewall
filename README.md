@@ -40,7 +40,7 @@ firewall_restore_rules: true
 firewall_allow_icmp: true
 
 # Set to 1 to allow IP Forwarding, 0 to disable, 'unconfigured' to leave the current option. (default is 0)
-firewall_allow_ip_forward: '0'
+firewall_allow_ip_forwarding: '0'
 
 # Set false to stop logging dropped / reject packets. (default is true)
 firewall_log_dropped_packets: true

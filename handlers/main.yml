@@ -31,7 +31,7 @@
   when: firewall_restore_rules
 
 # Apply IP Forward Policy on the fly
-- name: Apply IP Forward Policy
+- name: Apply IP Forwarding Policy
   shell: |
-    sysctl -w net.ipv4.ip_forward={{ firewall_allow_ip_forward }}
-    sysctl -w net.ipv6.conf.all.forwarding={{ firewall_allow_ip_forward }}
+    sysctl -w net.ipv4.ip_forward={{ firewall_allow_ip_forwarding }}
+    sysctl -w net.ipv6.conf.all.forwarding={{ firewall_allow_ip_forwarding }}
