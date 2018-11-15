@@ -37,11 +37,11 @@
                 {%- if rule.out_if is defined %} -o {{ rule.out_if }} {%- endif %}
                 {%- if rule.proto is defined %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
                 {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
-                    {%- if rule.src_ip | search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/128 {%- endif %}
+                    {%- if rule.src_ip is search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/128 {%- endif %}
                 {%- endif %}
                 {%- if rule.src_port is defined and rule.src_port != 'any' %} --sport {{ rule.src_port }} {%- endif %}
                 {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination
-                    {%- if rule.dest_ip | search('/') %} {{ rule.dest_ip }} {%- else %} {{ rule.dest_ip }}/128 {%- endif %}
+                    {%- if rule.dest_ip is search('/') %} {{ rule.dest_ip }} {%- else %} {{ rule.dest_ip }}/128 {%- endif %}
                 {%- endif %}
                 {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
                 {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
@@ -66,11 +66,11 @@
             {%- if rule.out_if is defined %} -o {{ rule.out_if }} {%- endif %}
             {%- if rule.proto is defined %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
             {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
-                {%- if rule.src_ip | search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/128 {%- endif %}
+                {%- if rule.src_ip is search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/128 {%- endif %}
             {%- endif %}
             {%- if rule.src_port is defined and rule.src_port != 'any' %} --sport {{ rule.src_port }} {%- endif %}
             {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination
-                {%- if rule.dest_ip | search('/') %} {{ rule.dest_ip }} {%- else %} {{ rule.dest_ip }}/128 {%- endif %}
+                {%- if rule.dest_ip is search('/') %} {{ rule.dest_ip }} {%- else %} {{ rule.dest_ip }}/128 {%- endif %}
             {%- endif %}
             {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
             {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
