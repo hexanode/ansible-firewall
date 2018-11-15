@@ -6,7 +6,7 @@
 :INPUT {{ 'ACCEPT' if firewall_input_policy_accept else 'DROP' }} [0:0]
 :FORWARD {{ 'ACCEPT' if firewall_forward_policy_accept else 'DROP' }} [0:0]
 :OUTPUT {{ 'ACCEPT' if firewall_output_policy_accept else 'DROP' }} [0:0]
-:LOG_CHAIN - [0:0]
+:LOG_CHAIN_IN - [0:0]
 :LOG_CHAIN_OUT - [0:0]
 
 ## BEGIN RULES
@@ -28,7 +28,8 @@
     {%- if hostvars[inventory_hostname][role_rules] is defined -%}
         ### {{ role_rules | replace('_firewall_rules','') | upper }}
         {% for rule in hostvars[inventory_hostname][role_rules] -%}
-            {% if ( ( rule.dest_ip is not defined or rule.dest_ip == 'any' ) and
+            {% if ( rule.table is not defined or rule.table|lower == 'filter' ) and
+                  ( ( rule.dest_ip is not defined or rule.dest_ip == 'any' ) and
                   ( rule.src_ip is not defined or rule.src_ip == 'any' ) ) or
                   ( rule.ip is defined and rule.ip == '6' ) -%}
                     -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
@@ -54,9 +55,10 @@
 ## CUSTOM RULES
 
 ### Custom rules from variables
-{% if firewall_filter_rules is defined -%}
-    {% for rule in firewall_filter_rules -%}
-        {% if ( ( rule.dest_ip is not defined or rule.dest_ip == 'any' ) and
+{% if firewall_rules is defined -%}
+    {% for rule in firewall_rules -%}
+        {% if ( rule.table is not defined or rule.table|lower == 'filter' ) and
+              ( ( rule.dest_ip is not defined or rule.dest_ip == 'any' ) and
               ( rule.src_ip is not defined or rule.src_ip == 'any' ) ) or
               ( rule.ip is defined and rule.ip == '6' ) -%}
                 -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
@@ -86,7 +88,7 @@
 ## END RULES
 
 {% if firewall_log_dropped_packets %}
--A INPUT -m comment --comment "99998 INPUT ALL LOG_CHAIN" -j LOG_CHAIN
+-A INPUT -m comment --comment "99998 INPUT ALL LOG_CHAIN_IN" -j LOG_CHAIN_IN
 {% endif %}
 -A INPUT -m comment --comment "99999 INPUT ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
 
@@ -94,8 +96,8 @@
 
 {% if firewall_log_dropped_packets %}
 ### LOG DROP INPUT
--A LOG_CHAIN -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00000 LOG_CHAIN ALL LOG" -j LOG --log-prefix "[IPT LOG]: "
--A LOG_CHAIN -m comment --comment "00001 LOG_CHAIN ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
+-A LOG_CHAIN_IN -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00000 LOG_CHAIN_IN ALL LOG" -j LOG --log-prefix "[IPT LOG IN]: "
+-A LOG_CHAIN_IN -m comment --comment "00001 LOG_CHAIN_IN ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
 
 ### LOG DROP OUTPUT
 -A LOG_CHAIN_OUT -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00000 LOG_CHAIN_OUT ALL LOG" -j LOG --log-prefix "[IPT LOG OUT]: "
