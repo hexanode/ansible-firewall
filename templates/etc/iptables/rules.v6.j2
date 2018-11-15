@@ -15,7 +15,7 @@
 -A INPUT -i lo -m comment --comment "00000 INPUT ALL ACCEPT lo" -j ACCEPT
 
 ### Accept related, established traffic
--A INPUT -m comment --comment "00001 INPUT ALL RELATED,ESTABLISHED ACCEPT" -m state --state RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -m comment --comment "00001 INPUT ALL RELATED,ESTABLISHED ACCEPT" -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
 {% if firewall_allow_icmp %}
 ### Allow icmp requests
