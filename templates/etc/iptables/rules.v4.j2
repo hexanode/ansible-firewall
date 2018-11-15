@@ -50,7 +50,7 @@ COMMIT
     {%- if hostvars[inventory_hostname][role_rules] is defined -%}
         ### {{ role_rules | replace('_firewall_rules','') | upper }}
         {% for rule in hostvars[inventory_hostname][role_rules] -%}
-            {% if ( rule.table is not defined or rule.table == 'filter' ) and
+            {% if ( rule.table is not defined or rule.table|lower == 'filter' ) and
                   ( rule.ip is not defined or rule.ip == '4' ) -%}
                     -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
                 {%- if rule.in_if is defined %} -i {{ rule.in_if }} {%- endif %}
@@ -77,7 +77,7 @@ COMMIT
 ### Custom rules from variables
 {% if firewall_filter_rules is defined -%}
     {% for rule in firewall_filter_rules -%}
-        {% if ( rule.table is not defined or rule.table == 'filter' ) and
+        {% if ( rule.table is not defined or rule.table|lower == 'filter' ) and
               ( rule.ip is not defined or rule.ip == '4' ) -%}
                 -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
             {%- if rule.in_if is defined %} -i {{ rule.in_if }} {%- endif %}
