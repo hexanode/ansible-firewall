@@ -8,7 +8,59 @@
 :OUTPUT ACCEPT [0:0]
 :POSTROUTING ACCEPT [0:0]
 
+## ROLES RULES
+
+{% for role_rules in enabled_role_rules_list %}
+    {%- if hostvars[inventory_hostname][role_rules] is defined -%}
+        ### {{ role_rules | replace('_firewall_rules','') | upper }}
+        {% for rule in hostvars[inventory_hostname][role_rules] -%}
+            {% if ( rule.table is defined and rule.table|lower == 'nat' ) and
+                  ( rule.ip is not defined or rule.ip == '4' ) -%}
+                    -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
+                {%- if rule.in_if is defined %} -i {{ rule.in_if }} {%- endif %}
+                {%- if rule.out_if is defined %} -o {{ rule.out_if }} {%- endif %}
+                {%- if rule.proto is defined %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
+                {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
+                    {%- if rule.src_ip | search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/32 {%- endif %}
+                {%- endif %}
+                {%- if rule.src_port is defined and rule.src_port != 'any' %} --sport {{ rule.src_port }} {%- endif %}
+                {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination
+                    {%- if rule.dest_ip | search('/') %} {{ rule.dest_ip }} {%- else %} {{ rule.dest_ip }}/32 {%- endif %}
+                {%- endif %}
+                {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
+                {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
+                {%- if rule.policy is not defined %} -j ACCEPT {%- else %} -j {{ rule.policy }} {%- endif %}
+
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+{% endfor %}
 ## CUSTOM RULES
+
+### Custom rules from variables
+{% if firewall_rules is defined -%}
+    {% for rule in firewall_rules -%}
+        {% if ( rule.table is defined and rule.table|lower == 'nat' ) and
+              ( rule.ip is not defined or rule.ip == '4' ) -%}
+                -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
+            {%- if rule.in_if is defined %} -i {{ rule.in_if }} {%- endif %}
+            {%- if rule.out_if is defined %} -o {{ rule.out_if }} {%- endif %}
+            {%- if rule.proto is defined %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
+            {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
+                {%- if rule.src_ip | search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/32 {%- endif %}
+            {%- endif %}
+            {%- if rule.src_port is defined and rule.src_port != 'any' %} --sport {{ rule.src_port }} {%- endif %}
+            {%- if rule.dest_ip is defined and rule.dest_ip != 'any' %} --destination
+                {%- if rule.dest_ip | search('/') %} {{ rule.dest_ip }} {%- else %} {{ rule.dest_ip }}/32 {%- endif %}
+            {%- endif %}
+            {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
+            {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
+            {%- if rule.policy is not defined %} -j ACCEPT {%- else %} -j {{ rule.policy }} {%- endif %}
+
+        {% endif %}
+    {% endfor %}
+{% endif %}
 
 ### Forwarded ports rules
 {% for rule in firewall_forwarded_ports_rules %}
