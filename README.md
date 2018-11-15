@@ -61,7 +61,7 @@ firewall_forward_policy_accept: false
 firewall_output_policy_accept: true
 
 # List of enabled rules. (default is to allow ssh to preserve ssh access)
-firewall_filter_rules:
+firewall_rules:
   - { dest_port: '22' }
 
 # List of forwarded ports rules (For IPv4)
@@ -87,9 +87,9 @@ none
 
 ## Rules Syntax
 
-### Filter Rules & Roles Rules syntax
+### Filter Rules & Nat Rules & Roles Rules syntax
 
-Here is a recap of all possible values for firewall_filter_rules & for role rules.
+Here is a recap of all possible values for firewall_rules & for role rules.
 
 | Option    | Role                            | Default value | Possible values                     |
 |-----------|---------------------------------|:-------------:|-------------------------------------|

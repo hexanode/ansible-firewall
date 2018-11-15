@@ -75,8 +75,8 @@ COMMIT
 ## CUSTOM RULES
 
 ### Custom rules from variables
-{% if firewall_filter_rules is defined -%}
-    {% for rule in firewall_filter_rules -%}
+{% if firewall_rules is defined -%}
+    {% for rule in firewall_rules -%}
         {% if ( rule.table is not defined or rule.table|lower == 'filter' ) and
               ( rule.ip is not defined or rule.ip == '4' ) -%}
                 -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
