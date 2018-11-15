@@ -93,6 +93,7 @@ Here is a recap of all possible values for firewall_rules & for role rules.
 
 | Option    | Role                            | Default value | Possible values                     |
 |-----------|---------------------------------|:-------------:|-------------------------------------|
+| table     | Table                           |     filter    | filter, nat                         |
 | in_if     | Input Interface (-i)            |      any      | Any interface name available        |
 | out_if    | Output Interface (-o)           |      any      | Any interface name available        |
 | ip        | IP Version                      |      both     | 4, 6                                |
