@@ -93,7 +93,8 @@ Here is a recap of all possible values for firewall_filter_rules & for role rule
 
 | Option    | Role                            | Default value | Possible values                     |
 |-----------|---------------------------------|:-------------:|-------------------------------------|
-| interface | Interface                       |      any      | Any interface name available        |
+| in_if     | Input Interface (-i)            |      any      | Any interface name available        |
+| out_if    | Output Interface (-o)           |      any      | Any interface name available        |
 | ip        | IP Version                      |      both     | 4, 6                                |
 | chain     | iptables chain                  |     INPUT     | INPUT, FORWARD, OUTPUT              |
 | proto     | Transport Protocol              |      none     | tcp, udp                            |
@@ -113,7 +114,7 @@ The syntax is a bit flexible, per example you can use the following syntax.
 ```
 [
     { proto: 'tcp', src_ip: 'any', src_port: 'any', dest_ip: 'any', dest_port: '80', policy: 'ACCEPT', comment: 'Accept HTTP' },
-    { interface: 'eth1', proto: 'udp', src_ip: '23.66.165.166/32', dest_ip: '104.16.77.187', dest_port: '1194' },
+    { in_if: 'eth1', proto: 'udp', src_ip: '23.66.165.166/32', dest_ip: '104.16.77.187', dest_port: '1194' },
     { ip: '6', proto: 'udp', dest_ip: '2001:4860:4860::8888', dest_port: '53' }
     { dest_port: '8484' },
 ]
