@@ -10,8 +10,8 @@
 
 ## CUSTOM RULES
 
-### Forwarded ports
-{% for rule in firewall_forwarded_rules %}
+### Forwarded ports rules
+{% for rule in firewall_forwarded_ports_rules %}
 -A PREROUTING {%- if rule.proto is not defined %} -p tcp {%- else %} -p {{ rule.proto }} {%- endif %} --dport {{ rule.src_port }} -j REDIRECT --to-port {{ rule.dest_port }}
 -A OUTPUT {%- if rule.proto is not defined %} -p tcp {%- else %} -p {{ rule.proto }} {%- endif %} -o lo --dport {{ rule.src_port }} -j REDIRECT --to-port {{ rule.dest_port }}
 {% endfor %}

@@ -64,8 +64,8 @@ firewall_output_policy_accept: true
 firewall_filter_rules:
   - { dest_port: '22' }
 
-# List of forwarded rules (For IPv4).
-firewall_forwarded_rules: []
+# List of forwarded ports rules (For IPv4)
+firewall_forwarded_ports_rules: []
 
 # Additional IPv4 nat firewall rules.
 firewall_ipv4_additional_nat_rules: []
@@ -132,9 +132,9 @@ IPv6 :
 -A INPUT -p udp -m udp --destination 2001:4860:4860::8888/128 --dport 53 -j ACCEPT
 ```
 
-### Forwarded Rules syntax
+### Forwarded Ports Rules syntax
 
-Possible values for firewall_forwarded_rules.
+Possible values for firewall_forwarded_ports_rules.
 
 | Option    | Role                            | Default value | Possible values                     |
 |-----------|---------------------------------|:-------------:|-------------------------------------|
