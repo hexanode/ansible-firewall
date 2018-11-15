@@ -6,7 +6,7 @@
     line: "net.ipv4.ip_forward={{ firewall_allow_ip_forwarding }}"
     regexp: '^#?net.ipv4.ip_forward=.*$'
     state: present
-  when: firewall_allow_ip_forwarding == '0' or firewall_allow_ip_forwarding == '1'
+  when: firewall_allow_ip_forwarding == 0 or firewall_allow_ip_forwarding == 1
   notify: Apply IP Forwarding Policy
 
 - name: Configure IPv6 Forwarding
@@ -15,5 +15,5 @@
     line: "net.ipv6.conf.all.forwarding={{ firewall_allow_ip_forwarding }}"
     regexp: '^#?net.ipv6.conf.all.forwarding=.*$'
     state: present
-  when: firewall_allow_ip_forwarding == '0' or firewall_allow_ip_forwarding == '1'
+  when: firewall_allow_ip_forwarding == 0 or firewall_allow_ip_forwarding == 1
   notify: Apply IP Forwarding Policy
