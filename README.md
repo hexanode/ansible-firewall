@@ -62,7 +62,7 @@ firewall_output_policy_accept: true
 
 # List of enabled rules. (default is to allow ssh to preserve ssh access)
 firewall_rules:
-  - { dest_port: '22' }
+  - { proto: 'tcp', dest_port: '22', comment: 'By default allow ssh' }
 
 # List of forwarded ports rules (For IPv4)
 firewall_forwarded_ports_rules: []
