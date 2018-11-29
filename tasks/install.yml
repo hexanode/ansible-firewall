@@ -2,11 +2,12 @@
 
 - name: Install required firewall packages
   apt:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: present
     update_cache: yes
     install_recommends: no
     cache_valid_time: 604800
-  with_items:
-  - iptables
-  - iptables-persistent
+  vars:
+    packages:
+    - iptables
+    - iptables-persistent
