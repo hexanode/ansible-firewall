@@ -77,7 +77,7 @@ firewall_ipv4_additional_rules: []
 firewall_ipv6_additional_rules: []
 
 # Enabled Role rules list
-enabled_role_rules_list: []
+firewall_enabled_role_rules_list: []
 ```
 
 ## Dependencies
@@ -186,10 +186,10 @@ How to use the role in your ansible playbook.
 
 How to use the iptables rules creation with firewall role in a external role.
 
-If you use another role called "nginx", simply add a specific variable for it to the enabled_role_rules_list. You can choose the name you want but choose wisely, something unique, we will set it as fact for using it in the other role firewall. We don't want to override another variable.
+If you use another role called "nginx", simply add a specific variable for it to the firewall_enabled_role_rules_list. You can choose the name you want but choose wisely, something unique, we will set it as fact for using it in the other role firewall. We don't want to override another variable.
 
 ```
-enabled_role_rules_list:
+firewall_enabled_role_rules_list:
   - [...]
   - 'docker_firewall_rules'
   - 'nginx_firewall_rules'

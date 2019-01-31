@@ -51,4 +51,4 @@ firewall_ipv4_additional_rules: []
 firewall_ipv6_additional_rules: []
 
 # Enabled Role rules list
-enabled_role_rules_list: []
+firewall_enabled_role_rules_list: []

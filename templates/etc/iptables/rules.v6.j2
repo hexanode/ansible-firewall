@@ -24,7 +24,7 @@
 
 ## ROLES RULES
 
-{% for role_rules in enabled_role_rules_list %}
+{% for role_rules in firewall_enabled_role_rules_list %}
     {%- if hostvars[inventory_hostname][role_rules] is defined -%}
         ### {{ role_rules | replace('_firewall_rules','') | upper }}
         {% for rule in hostvars[inventory_hostname][role_rules] -%}
