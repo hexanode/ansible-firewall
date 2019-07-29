@@ -20,7 +20,7 @@
   import_tasks: install.yml
   tags: firewall_install
 
-# System
+# System
 - name: Static import of system configuration
   import_tasks: system.yml
   tags: firewall_system
