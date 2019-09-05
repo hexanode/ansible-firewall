@@ -13,7 +13,7 @@
 # Disable other firewall
 - name: Dynamic include of disable_others
   include_tasks: disable_others.yml
-  when: firewall_disable_others
+  when: firewall_disable_others|bool
 
 # Install
 - name: Static import of install
@@ -29,7 +29,7 @@
 - name: Dynamic include of logs
   include_tasks: logs.yml
   tags: firewall_logs
-  when: firewall_log_dropped_packets
+  when: firewall_log_dropped_packets|bool
 
 # Rules
 - name: Static import of rules
