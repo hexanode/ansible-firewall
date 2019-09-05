@@ -16,7 +16,7 @@
 - name: Restore IPv4 iptables ruleset
   shell: 'iptables-restore < /etc/iptables/rules.v4'
   listen: Test and Restore IPv4 ruleset
-  when: firewall_restore_rules
+  when: firewall_restore_rules|bool
 
 # Test IPv6 ruleset
 - name: Test IPv6 iptables ruleset
@@ -28,7 +28,7 @@
 - name: Restore IPv6 iptables ruleset
   shell: 'ip6tables-restore < /etc/iptables/rules.v6'
   listen: Test and Restore IPv6 ruleset
-  when: firewall_restore_rules
+  when: firewall_restore_rules|bool
 
 # Apply IP Forward Policy on the fly
 - name: Apply IP Forwarding Policy
