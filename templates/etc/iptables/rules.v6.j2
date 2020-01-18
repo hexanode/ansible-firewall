@@ -7,6 +7,7 @@
 :FORWARD {{ 'ACCEPT' if firewall_forward_policy_accept else 'DROP' }} [0:0]
 :OUTPUT {{ 'ACCEPT' if firewall_output_policy_accept else 'DROP' }} [0:0]
 :LOG_CHAIN_IN - [0:0]
+:LOG_CHAIN_FW - [0:0]
 :LOG_CHAIN_OUT - [0:0]
 
 ## BEGIN RULES
@@ -98,6 +99,10 @@
 ### LOG DROP INPUT
 -A LOG_CHAIN_IN -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00000 LOG_CHAIN_IN ALL LOG" -j LOG --log-prefix "[IPT LOG IN]: "
 -A LOG_CHAIN_IN -m comment --comment "00001 LOG_CHAIN_IN ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
+
+### LOG DROP FORWARD
+-A LOG_CHAIN_FW -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00000 LOG_CHAIN_FW ALL LOG" -j LOG --log-prefix "[IPT LOG FW]: "
+-A LOG_CHAIN_FW -m comment --comment "00001 LOG_CHAIN_FW ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
 
 ### LOG DROP OUTPUT
 -A LOG_CHAIN_OUT -m limit --limit {{ firewall_limit_log }}/min -m comment --comment "00000 LOG_CHAIN_OUT ALL LOG" -j LOG --log-prefix "[IPT LOG OUT]: "
