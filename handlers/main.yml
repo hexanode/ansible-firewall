@@ -29,9 +29,3 @@
   shell: 'ip6tables-restore < /etc/iptables/rules.v6'
   listen: Test and Restore IPv6 ruleset
   when: firewall_restore_rules|bool
-
-# Apply IP Forward Policy on the fly
-- name: Apply IP Forwarding Policy
-  shell: |
-    sysctl -w net.ipv4.ip_forward={{ firewall_allow_ip_forwarding }}
-    sysctl -w net.ipv6.conf.all.forwarding={{ firewall_allow_ip_forwarding }}

@@ -1,19 +1,19 @@
 ---
 
 - name: Configure IPv4 Forwarding
-  lineinfile:
-    dest: /etc/sysctl.conf
-    line: "net.ipv4.ip_forward={{ firewall_allow_ip_forwarding }}"
-    regexp: '^#?net.ipv4.ip_forward=.*$'
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: "{{ firewall_allow_ip_forwarding }}"
     state: present
+    sysctl_set: yes
+    reload: yes
   when: firewall_allow_ip_forwarding == 0 or firewall_allow_ip_forwarding == 1
-  notify: Apply IP Forwarding Policy
 
 - name: Configure IPv6 Forwarding
-  lineinfile:
-    dest: /etc/sysctl.conf
-    line: "net.ipv6.conf.all.forwarding={{ firewall_allow_ip_forwarding }}"
-    regexp: '^#?net.ipv6.conf.all.forwarding=.*$'
+  sysctl:
+    name: net.ipv6.conf.all.forwarding
+    value: "{{ firewall_allow_ip_forwarding }}"
     state: present
+    sysctl_set: yes
+    reload: yes
   when: firewall_allow_ip_forwarding == 0 or firewall_allow_ip_forwarding == 1
-  notify: Apply IP Forwarding Policy
