@@ -19,7 +19,10 @@
                     -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
                 {%- if rule.in_if is defined %} -i {{ rule.in_if }} {%- endif %}
                 {%- if rule.out_if is defined %} -o {{ rule.out_if }} {%- endif %}
-                {%- if rule.proto is defined %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
+                {%- if rule.proto is defined %} -p {{ rule.proto }} {%- endif %}
+                {%- if (rule.match is defined and rule.match is not none) or
+                       (rule.proto is defined and rule.match is not defined) %} -m {{ rule.match|default(rule.proto) }}
+                {%- endif %}
                 {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
                     {%- if rule.src_ip is search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/32 {%- endif %}
                 {%- endif %}
@@ -46,7 +49,10 @@
                 -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
             {%- if rule.in_if is defined %} -i {{ rule.in_if }} {%- endif %}
             {%- if rule.out_if is defined %} -o {{ rule.out_if }} {%- endif %}
-            {%- if rule.proto is defined %} -p {{ rule.proto }} -m {{ rule.proto }} {%- endif %}
+            {%- if rule.proto is defined %} -p {{ rule.proto }} {%- endif %}
+            {%- if (rule.match is defined and rule.match is not none) or
+                   (rule.proto is defined and rule.match is not defined) %} -m {{ rule.match|default(rule.proto) }}
+            {%- endif %}
             {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
                 {%- if rule.src_ip is search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/32 {%- endif %}
             {%- endif %}
@@ -108,7 +114,10 @@ COMMIT
                     -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
                 {%- if rule.in_if is defined %} -i {{ rule.in_if }} {%- endif %}
                 {%- if rule.out_if is defined %} -o {{ rule.out_if }} {%- endif %}
-                {%- if rule.proto is defined %} -p {{ rule.proto }} -m {{ rule.match|default(rule.proto) }} {%- endif %}
+                {%- if rule.proto is defined %} -p {{ rule.proto }} {%- endif %}
+                {%- if (rule.match is defined and rule.match is not none) or
+                       (rule.proto is defined and rule.match is not defined) %} -m {{ rule.match|default(rule.proto) }}
+                {%- endif %}
                 {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
                     {%- if rule.src_ip is search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/32 {%- endif %}
                 {%- endif %}
@@ -135,7 +144,10 @@ COMMIT
                 -A {%- if rule.chain is defined %} {{ rule.chain }} {%- else %} INPUT {%- endif %}
             {%- if rule.in_if is defined %} -i {{ rule.in_if }} {%- endif %}
             {%- if rule.out_if is defined %} -o {{ rule.out_if }} {%- endif %}
-            {%- if rule.proto is defined %} -p {{ rule.proto }} -m {{ rule.match|default(rule.proto) }} {%- endif %}
+            {%- if rule.proto is defined %} -p {{ rule.proto }} {%- endif %}
+            {%- if (rule.match is defined and rule.match is not none) or
+                   (rule.proto is defined and rule.match is not defined) %} -m {{ rule.match|default(rule.proto) }}
+            {%- endif %}
             {%- if rule.src_ip is defined and rule.src_ip != 'any' %} --source
                 {%- if rule.src_ip is search('/') %} {{ rule.src_ip }} {%- else %} {{ rule.src_ip }}/32 {%- endif %}
             {%- endif %}

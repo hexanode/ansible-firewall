@@ -98,7 +98,8 @@ Here is a recap of all possible values for firewall_rules & for role rules.
 | out_if    | Output Interface (-o)           |      any      | Any interface name available        |
 | ip        | IP Version                      |      both     | 4, 6                                |
 | chain     | iptables chain                  |     INPUT     | INPUT, FORWARD, OUTPUT              |
-| proto     | Transport Protocol              |      none     | tcp, udp                            |
+| proto     | Transport Protocol              |      none     | tcp, udp, vrrp, etc.                |
+| match     | Match                           |      proto    | null (disable), tcp, udp, etc.      |
 | src_ip    | Specific source IP Address      |      any      | any IPv4 or IPv6 (must set ip to 6) |
 | src_port  | Specific source port            |      any      | any port number                     |
 | dest_ip   | Specific destination IP Address |      any      | any IPv4 or IPv6 (must set ip to 6) |
