@@ -1,0 +1,4 @@
+---
+
+firewall_dest_ipv4_rules: /etc/sysconfig/iptables
+firewall_dest_ipv6_rules: /etc/sysconfig/ip6tables

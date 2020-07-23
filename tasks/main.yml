@@ -6,9 +6,20 @@
 # OS support verification
 - name: Check OS support
   fail:
-    msg: "Unsupported OS for docker role. Currently supported : Debian 8 & Debian 9"
-  when: ansible_os_family != "Debian" and ( ansible_distribution_major_version == "9" or ansible_distribution_major_version == "8" )
+    msg: "Unsupported OS for core users. Currently supported : Debian 8, 9 and Debian 10 and CentOS 8"
+  when: >
+    (ansible_os_family != 'Debian' and ansible_os_family != 'RedHat')
+    or
+    (ansible_os_family == 'Debian' and ansible_distribution_major_version is version('8', '<') and ansible_distribution_major_version is version('10', '>'))
+    or
+    (ansible_os_family == 'RedHat' and ansible_distribution_major_version is version('8', '!='))
   tags: always
+
+- name: Include OS-specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
+    - "{{ ansible_distribution }}.yml"
 
 # Disable other firewall
 - name: Dynamic include of disable_others
