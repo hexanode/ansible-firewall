@@ -1,0 +1,4 @@
+---
+
+firewall_dest_ipv4_rules: /etc/iptables/rules.v4
+firewall_dest_ipv6_rules: /etc/iptables/rules.v6
