@@ -4,6 +4,9 @@
 ## Default variables for firewall role #
 ########################################
 
+# Enable role
+role_firewall: true
+
 # Set to true in order to disable others firewall. (default is false)
 firewall_disable_others: false
 
