@@ -5,7 +5,7 @@
 ########################################
 
 # Enable role
-role_firewall: true
+role_firewall: false
 
 # Set to true in order to disable others firewall. (default is false)
 firewall_disable_others: false
