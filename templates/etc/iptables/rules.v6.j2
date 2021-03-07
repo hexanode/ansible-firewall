@@ -20,7 +20,7 @@
 
 {% if firewall_allow_icmp %}
 ### Allow icmp requests
--A INPUT -p icmp -m comment --comment "00002 INPUT ICMP ACCEPT" -j ACCEPT
+-A INPUT -p ipv6-icmp -m comment --comment "00002 INPUT ICMP ACCEPT" -j ACCEPT
 {% endif %}
 
 ## ROLES RULES
