@@ -11,6 +11,7 @@
     packages:
       - iptables
       - iptables-persistent
+      - ipset
   when: ansible_os_family == 'Debian'
 
 - name: Install required firewall packages for CentOS
@@ -21,4 +22,5 @@
   vars:
     packages:
       - iptables
+      - ipset
   when: ansible_os_family == 'RedHat'
