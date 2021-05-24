@@ -3,17 +3,15 @@
 - name: Configure IPv4 Forwarding
   sysctl:
     name: net.ipv4.ip_forward
-    value: "{{ firewall_allow_ip_forwarding }}"
+    value: "{{ '1' if firewall_allow_ip_forwarding|bool else '0' }}"
     state: present
     sysctl_set: yes
     reload: yes
-  when: firewall_allow_ip_forwarding == 0 or firewall_allow_ip_forwarding == 1
 
 - name: Configure IPv6 Forwarding
   sysctl:
     name: net.ipv6.conf.all.forwarding
-    value: "{{ firewall_allow_ip_forwarding }}"
+    value: "{{ '1' if firewall_allow_ip_forwarding|bool else '0' }}"
     state: present
     sysctl_set: yes
     reload: yes
-  when: firewall_allow_ip_forwarding == 0 or firewall_allow_ip_forwarding == 1
