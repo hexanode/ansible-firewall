@@ -70,6 +70,9 @@ firewall_forwarded_ports_rules: []
 # Additional IPv4 nat firewall rules.
 firewall_ipv4_additional_nat_rules: []
 
+# Additionnal IPv4 mangle rules
+firewall_ipv4_additional_mangle_rules: []
+
 # Additional IPv4 firewall rules.
 firewall_ipv4_additional_rules: []
 
