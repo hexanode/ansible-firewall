@@ -50,6 +50,7 @@
                 {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
                 {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
                 {%- if rule.policy is not defined %} -j ACCEPT {%- else %} -j {{ rule.policy }} {%- endif %}
+                {%- if rule.custom is defined %} {{ rule.custom }} {%- endif %}
 
             {% endif %}
         {% endfor %}
@@ -82,6 +83,7 @@
             {%- if rule.dest_port is defined and rule.dest_port != 'any' %} --dport {{ rule.dest_port }} {%- endif %}
             {%- if rule.comment is defined %} -m comment --comment "{{ rule.comment }}" {%- endif %}
             {%- if rule.policy is not defined %} -j ACCEPT {%- else %} -j {{ rule.policy }} {%- endif %}
+            {%- if rule.custom is defined %} {{ rule.custom }} {%- endif %}
 
         {% endif %}
     {% endfor %}
