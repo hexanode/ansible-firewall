@@ -1,5 +1,11 @@
 ---
 
+- name: Check IPv6 module status
+  command: cat /sys/module/ipv6/parameters/disable
+  changed_when: false
+  check_mode: false
+  register: firewall_ipv6_module_disable
+
 - name: Configure IPv4 Forwarding
   sysctl:
     name: net.ipv4.ip_forward
@@ -15,3 +21,4 @@
     state: present
     sysctl_set: yes
     reload: yes
+  when: firewall_ipv6_module_disable is defined and not firewall_ipv6_module_disable.stdout|bool
