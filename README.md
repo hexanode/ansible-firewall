@@ -13,6 +13,7 @@ Compliant with :
 Other:
 - Fact gathering should be allowed in ansible-playbook (By default)
 - The role require the superuser privileges. The task should be used with remote_user root or with a sudo/su grant
+- ansible builtin service_facts must be populated
 
 ## Role behavior
 
@@ -31,7 +32,7 @@ Modifiables variables and possible values are listed below :
 
 ```
 # Set to true in order to disable others firewall. (default is false)
-firewall_disable_others: false
+firewall_disable_others: true
 
 # Set to false to disable automatic rules restoration, the role will only generate rules.v[4|6] files. (default is true)
 firewall_restore_rules: true
