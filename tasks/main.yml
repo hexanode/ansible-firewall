@@ -27,6 +27,7 @@
 - name: Dynamic include of disable_others
   include_tasks: disable_others.yml
   when: firewall_disable_others|bool
+  tags: firewall_disable_others
 
 # Install
 - name: Static import of install

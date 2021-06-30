@@ -1,15 +1,15 @@
 ---
 
-- name: Check if UFW package is installed
-  shell: service ufw status
-  register: ufw_installed
-  ignore_errors: true
-  changed_when: false
-  when: ansible_os_family != "Debian" and ( ansible_distribution_major_version == "9" or ansible_distribution_major_version == "8" )
-
 - name: Disable UFW firewall
-  service:
+  systemd:
     name: ufw
     state: stopped
-    enabled: no
-  when: ansible_os_family != "Debian" and ( ansible_distribution_major_version == "9" or ansible_distribution_major_version == "8" )
+    enabled: false
+  when: "'ufw.service' in services"
+
+- name: Disable Netfilter firewall
+  systemd:
+    name: nftables
+    state: stopped
+    enabled: false
+  when: "'nftables.service' in services"
