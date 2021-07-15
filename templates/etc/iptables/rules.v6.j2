@@ -98,7 +98,7 @@
 
 {% if firewall_log_dropped_packets %}
 -A INPUT -m comment --comment "99998 INPUT ALL LOG_CHAIN_IN" -j LOG_CHAIN_IN
--A FORWARD -m comment --comment "99998 FORWARD ALL LOG_CHAIN_IN" -j LOG_CHAIN_FW
+-A FORWARD -m comment --comment "99998 FORWARD ALL LOG_CHAIN_FW" -j LOG_CHAIN_FW
 {% endif %}
 -A INPUT -m comment --comment "99999 INPUT ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
 -A FORWARD -m comment --comment "99999 FORWARD ALL {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}" -j {{ 'DROP' if firewall_drop_instead_of_reject else 'REJECT' }}
