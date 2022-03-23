@@ -5,11 +5,15 @@
     name: ufw
     state: stopped
     enabled: false
-  when: "'ufw.service' in services"
+  when:
+    - "'ufw.service' in services"
+    - services['ufw.service']['status'] != 'not-found'
 
 - name: Disable Netfilter firewall
   systemd:
     name: nftables
     state: stopped
     enabled: false
-  when: "'nftables.service' in services"
+  when:
+    - "'nftables.service' in services"
+    - services['nftables.service']['status'] != 'not-found'
