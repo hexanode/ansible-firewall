@@ -7,8 +7,12 @@ We want this role as simple, configurable and interoperable as possible.
 ## Requirements
 
 Compliant with :
-- Debian 8 (Jessie)
+- Debian 11 (Bullseye)
+- Debian 10 (Buster)
 - Debian 9 (Stretch)
+- Debian 8 (Jessie)
+- Ubuntu 20 (Focal Fossa)
+- CentOS 8 (WIP)
 
 Other:
 - Fact gathering should be allowed in ansible-playbook (By default)
@@ -28,66 +32,9 @@ Other:
 
 Available variables with defaults values are defined in `defaults/main.yml`.
 
-Modifiables variables and possible values are listed below :
-
-```
-# Set to true in order to disable others firewall. (default is false)
-firewall_disable_others: true
-
-# Set to false to disable automatic rules restoration, the role will only generate rules.v[4|6] files. (default is true)
-firewall_restore_rules: true
-
-# Set false to disallow icmp. (default is true)
-firewall_allow_icmp: true
-
-# Set to 1 to allow IP Forwarding, 0 to disable, 'unconfigured' to leave the current option. (default is 0)
-firewall_allow_ip_forwarding: 0
-
-# Set false to stop logging dropped / reject packets. (default is true)
-firewall_log_dropped_packets: true
-
-# Log at most X packets per minute. (Default is 10)
-firewall_limit_log: 10
-
-# Set false to reject instead of dropping packets. (default is true)
-firewall_drop_instead_of_reject: true
-
-# Set true to configure default INPUT policy to ACCEPT. (default is false)
-firewall_input_policy_accept: false
-
-# Set true to configure default FORWARD policy to ACCEPT. (default is false)
-firewall_forward_policy_accept: false
-
-# Set false to configure default OUTPUT policy to REJECT/DROP. (default is true)
-firewall_output_policy_accept: true
-
-# List of enabled rules. (default is to allow ssh to preserve ssh access)
-firewall_rules:
-  - { proto: 'tcp', dest_port: '22', comment: '00022 Allow SSH by default' }
-
-# List of forwarded ports rules (For IPv4)
-firewall_forwarded_ports_rules: []
-
-# Additional IPv4 nat firewall rules.
-firewall_ipv4_additional_nat_rules: []
-
-# Additionnal IPv4 mangle rules
-firewall_ipv4_additional_mangle_rules: []
-
-# Additional IPv4 firewall rules.
-firewall_ipv4_additional_rules: []
-
-# Additionnal IPv6 firewall rules.
-firewall_ipv6_additional_rules: []
-
-# Enabled Role rules list
-firewall_enabled_role_rules_list: []
-```
-
 ## Dependencies
 
 none
-
 
 ## Rules Syntax
 
@@ -213,17 +160,9 @@ Then, in your "nginx" role, define a new fact.
 
 **Note :** If you want to use tags to run only the firewall role, please use the `tags: always` for the set_fact in other roles. This ensures that even if there is only the firewall role that is executed you will not forget rules of other roles.
 
-## ToDo
-
-- Add tests
-- Add CI Integration
-- Improve current and generated rules comparison
-
-
 ## License
 
 GPLv3
-
 
 ## Author Information
 
