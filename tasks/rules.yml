@@ -2,7 +2,7 @@
 
 # Generate IPv4 Rules
 - name: Generate IPv4 Rules
-  template:
+  ansible.builtin.template:
     src: etc/iptables/rules.v4.j2
     dest: "{{ firewall_dest_ipv4_rules }}"
     owner: root
@@ -12,7 +12,7 @@
 
 # Generate IPv6 Rules
 - name: Generate IPv6 Rules
-  template:
+  ansible.builtin.template:
     src: etc/iptables/rules.v6.j2
     dest: "{{ firewall_dest_ipv6_rules }}"
     owner: root
@@ -22,7 +22,7 @@
 
 # Compare IPv4 current and generated rules number
 - name: Compare IPv4 current and generated rules number
-  shell: test "$(iptables-save|grep '^\-'|wc -l)" = "$(grep '^\-' {{ firewall_dest_ipv4_rules }}|wc -l)"
+  ansible.builtin.shell: test "$(iptables-save|grep '^\-'|wc -l)" = "$(grep '^\-' {{ firewall_dest_ipv4_rules }}|wc -l)"
   register: firewall_ipv4_current_generated_differ
   changed_when: "firewall_ipv4_current_generated_differ.rc != 0"
   ignore_errors: true
@@ -33,7 +33,7 @@
 # (TODO) We should investigate this for IPv4 & IPv6
 
 - name: Notify user that rules differ for IPv4
-  debug:
+  ansible.builtin.debug:
     msg: "IPv4 current and generated rules differ"
   when:
     - not ansible_check_mode
@@ -43,7 +43,7 @@
 
 # Compare IPv6 current and generated rules number
 - name: Compare IPv6 current and generated rules number
-  shell: test "$(ip6tables-save|grep '^\-'|wc -l)" = "$(grep '^\-' {{ firewall_dest_ipv6_rules }}|wc -l)"
+  ansible.builtin.shell: test "$(ip6tables-save|grep '^\-'|wc -l)" = "$(grep '^\-' {{ firewall_dest_ipv6_rules }}|wc -l)"
   register: firewall_ipv6_current_generated_differ
   changed_when: "firewall_ipv6_current_generated_differ.rc != 0"
   ignore_errors: true
@@ -52,7 +52,7 @@
 # Notify user that rules differ for IPv6
 
 - name: Notify user that rules differ for IPv6
-  debug:
+  ansible.builtin.debug:
     msg: "IPv6 current and generated rules differ"
   when:
     - not ansible_check_mode
