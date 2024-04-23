@@ -1,11 +1,11 @@
 ---
 
 - name: Install required firewall packages for Debian
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
-    update_cache: yes
-    install_recommends: no
+    update_cache: true
+    install_recommends: false
     cache_valid_time: 86400
   vars:
     packages:
@@ -15,10 +15,10 @@
   when: ansible_os_family == 'Debian'
 
 - name: Install required firewall packages for CentOS
-  yum:
+  ansible.builtin.yum:
     name: "{{ packages }}"
     state: present
-    update_cache: yes
+    update_cache: true
   vars:
     packages:
       - iptables

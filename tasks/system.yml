@@ -1,24 +1,24 @@
 ---
 
 - name: Check IPv6 module status
-  command: cat /sys/module/ipv6/parameters/disable
+  ansible.builtin.command: cat /sys/module/ipv6/parameters/disable
   changed_when: false
   check_mode: false
   register: firewall_ipv6_module_disable
 
 - name: Configure IPv4 Forwarding
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: "{{ '1' if firewall_allow_ip_forwarding|bool else '0' }}"
     state: present
-    sysctl_set: yes
-    reload: yes
+    sysctl_set: true
+    reload: true
 
 - name: Configure IPv6 Forwarding
-  sysctl:
+  ansible.posix.sysctl:
     name: net.ipv6.conf.all.forwarding
     value: "{{ '1' if firewall_allow_ip_forwarding|bool else '0' }}"
     state: present
-    sysctl_set: yes
-    reload: yes
+    sysctl_set: true
+    reload: true
   when: firewall_ipv6_module_disable is defined and not firewall_ipv6_module_disable.stdout|bool
