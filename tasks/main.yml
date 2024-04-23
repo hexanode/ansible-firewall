@@ -5,7 +5,7 @@
 
 # OS support verification
 - name: Check OS support
-  fail:
+  ansible.builtin.fail:
     msg: "Unsupported OS for firewall role. Currently supported : Debian 8 to 11 included, Ubuntu 20 and CentOS 8"
   when: >
     (ansible_distribution != 'Debian' and ansible_distribution != 'Ubuntu' and ansible_distribution != 'CentOS')
@@ -17,34 +17,34 @@
     (ansible_distribution == 'CentOS' and (ansible_distribution_major_version is version('8', '!=')))
 
 - name: Include OS-specific variables
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_distribution }}-{{ ansible_distribution_major_version}}.yml"
     - "{{ ansible_distribution }}.yml"
 
 # Disable other firewall
 - name: Dynamic include of disable_others
-  include_tasks: disable_others.yml
+  ansible.builtin.include_tasks: disable_others.yml
   when: firewall_disable_others|bool
   tags: firewall_disable_others
 
 # Install
 - name: Static import of install
-  import_tasks: install.yml
+  ansible.builtin.import_tasks: install.yml
   tags: firewall_install
 
 # System
 - name: Static import of system configuration
-  import_tasks: system.yml
+  ansible.builtin.import_tasks: system.yml
   tags: firewall_system
 
 # Logs
 - name: Dynamic include of logs
-  include_tasks: logs.yml
+  ansible.builtin.include_tasks: logs.yml
   tags: firewall_logs
   when: firewall_log_dropped_packets|bool
 
 # Rules
 - name: Static import of rules
-  import_tasks: rules.yml
+  ansible.builtin.import_tasks: rules.yml
   tags: firewall_rules

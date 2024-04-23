@@ -1,7 +1,7 @@
 ---
 
 - name: Disable UFW firewall
-  systemd:
+  ansible.builtin.systemd:
     name: ufw
     state: stopped
     enabled: false
@@ -10,7 +10,7 @@
     - services['ufw.service']['status'] != 'not-found'
 
 - name: Disable Netfilter firewall
-  systemd:
+  ansible.builtin.systemd:
     name: nftables
     state: stopped
     enabled: false
